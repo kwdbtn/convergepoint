@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\VirtualMeter;
+use Carbon\Carbon;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 
@@ -43,7 +44,34 @@ class VirtualMeterController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function show(VirtualMeter $virtualMeter, $variable) {
-        // dd($request->from);
+        $today     = Carbon::now();
+        $month     = $today->month;
+        $year      = $today->year;
+        $startDate = Carbon::create($year, $month, 1, 0, 0, 0);
+
+        $from = $startDate;
+
+        $data = $this->getMeterData($virtualMeter, $variable, $from, $today);
+
+        $variables = [
+            '+A'           => 16005, '+R'        => 16007, '+S'              => 16006, 'PF'          => 16017,
+            'XNU_A+'       => 1632, 'XNU_R+'     => 2123, '+A*Energy*Kwh'    => 24948, '+A*MaxD*Kw'  => 24952,
+            '+A*MaxD*Kw*'  => 17768, '+E*'       => 15532, '+E*Power'        => 17761, '+R*'         => 17764,
+            '+R*AvDem'     => 24951, '+R*AvDem*' => 24954, '+R*Energy*Kvarh' => 24949, '+R*Power'    => 17762,
+            '+S*'          => 17765, '+VA*Dem'   => 24945, '+VA*Dem*'        => 24950, 'PowerFactor' => 17766,
+            'PowerFactor*' => 24956,
+        ];
+
+        $variableKey = array_search($variable, $variables);
+
+        return view('virtualMeters.show', compact('virtualMeter', 'data', 'variables', 'variableKey'));
+    }
+
+    public function search(Request $request) {
+        dd($request);
+    }
+
+    public function getMeterData(VirtualMeter $virtualMeter, $variable, $from, $to) {
         $headers = [
             'Accept'       => 'application/json',
             'Content-Type' => 'application/json',
@@ -73,8 +101,8 @@ class VirtualMeterController extends Controller {
                     ],
                 ],
             ],
-            "dataFrom"                  => "2021-10-01T00:00:00.501Z",
-            "dataTo"                    => "2021-10-10T00:00:00.501Z",
+            "dataFrom"                  => Carbon::parse($from)->toISOString(),
+            "dataTo"                    => Carbon::parse($to)->toISOString(),
             "useMeterTimezoneAlignment" => true,
         ];
 
@@ -90,8 +118,15 @@ class VirtualMeterController extends Controller {
 
         $meterdata = json_decode(preg_replace('/[\x00-\x1F\x80-\xFF]/', '', $response_meter_data->getBody()->getContents()), true);
         $data      = $meterdata['rowData'];
-        // dd($data['rowData']);
+        // dd($data);
+        return $data;
+    }
 
+    public function showQueryPage() {
+        return view('virtualMeters.query');
+    }
+
+    public function getQueryResults(Request $request) {
         $variables = [
             '+A'           => 16005, '+R'        => 16007, '+S'              => 16006, 'PF'          => 16017,
             'XNU_A+'       => 1632, 'XNU_R+'     => 2123, '+A*Energy*Kwh'    => 24948, '+A*MaxD*Kw'  => 24952,
@@ -101,9 +136,14 @@ class VirtualMeterController extends Controller {
             'PowerFactor*' => 24956,
         ];
 
-        $variableKey = array_search($variable, $variables);
+        $virtualMeter = VirtualMeter::find($request->virtualMeter);
+        $variableKey  = $request->variable;
+        $variable     = $variables[$variableKey];
+        $from         = $request->from;
+        $to           = $request->to;
 
-        return view('virtualMeters.show', compact('virtualMeter', 'data', 'variables', 'variableKey'));
+        $data = $this->getMeterData($virtualMeter, $variable, $from, $to);
+        return view('virtualMeters.queryResults', compact('data', 'virtualMeter', 'variableKey', 'from', 'to'));
     }
 
     /**

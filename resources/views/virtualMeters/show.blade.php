@@ -4,31 +4,10 @@
 <div class="container">
     <div class="card">
         <div class="card-body">
-            <h4 class="card-title"><strong>{{ $virtualMeter->name }} ({{ $variableKey }})</strong>
+            <h5 class="card-title">{{ $virtualMeter->name }} ({{ $variableKey }})
                 <span class="float-right"><a href="{{ route('virtual-meters.index') }}" class="btn btn-sm btn-dark float-end">Back</a></span>
-            </h4>
+            </h5>
             <hr>
-            <div class="row g-2 mt-1">
-                {!! Form::label('from', 'From:', ['class' => 'control-label col-sm-2 text-end']) !!}
-                <div class="col-auto">
-                    <div class="input-group date" id="datetimepicker7" data-target-input="nearest">
-                        {!! Form::text('from', null, ['class'=>'form-control datetimepicker-input col-md-12 col-xs-12','placeholder'=>'Start Date', 'data-target'=>'#datetimepicker7', 'data-toggle'=>"datetimepicker", 'required']) !!}
-                        <div class="input-group-append" data-target="#datetimepicker7" data-toggle="datetimepicker">
-                            {{-- <div class="input-group-text form-control"><i class="fa fa-calendar"></i></div> --}}
-                        </div>
-                    </div>
-                </div>
-            
-                {!! Form::label('to', 'To:', ['class' => 'control-label col-sm-2 text-end']) !!}
-                <div class="col-auto">
-                    <div class="input-group date" id="datetimepicker8" data-target-input="nearest">
-                        {!! Form::text('to', null, ['class'=>'form-control datetimepicker-input col-md-12 col-xs-12','placeholder'=>'End Date', 'data-target'=>'#datetimepicker8', 'data-toggle'=>"datetimepicker", 'required']) !!}
-                        <div class="input-group-append" data-target="#datetimepicker8" data-toggle="datetimepicker">
-                            {{-- <div class="input-group-text"><i class="fa fa-calendar"></i></div> --}}
-                        </div>
-                    </div>
-                </div>
-            </div><hr>
 
             <div class="row">
                 <div class="col-md-4">
@@ -63,7 +42,7 @@
                                     @endforeach @endif
                             </tbody>
                         </table>
-            </div>
+                    </div>
                 </div>
             </div>
             

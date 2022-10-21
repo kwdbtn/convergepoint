@@ -44,6 +44,10 @@
                         <li class="nav-item">
                             <a class="nav-link {{ request()->is('variables*') ? 'active' : '' }}" href="{{ route('variables.index') }}">Variables</a>
                         </li>
+
+                        <li class="nav-item">
+                        <a class="nav-link {{ request()->is('query*') ? 'active' : '' }}" href="{{ route('virtual-meters.showQuery') }}">Query</a>
+                        </li>
                     </ul>
 
                     <!-- Right Side Of Navbar -->
