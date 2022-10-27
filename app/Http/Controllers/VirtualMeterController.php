@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Charts\VirtualMeterDataChart;
 use App\Models\VirtualMeter;
 use Carbon\Carbon;
 use GuzzleHttp\Client;
@@ -64,7 +65,23 @@ class VirtualMeterController extends Controller {
 
         $variableKey = array_search($variable, $variables);
 
-        return view('virtualMeters.show', compact('virtualMeter', 'data', 'variables', 'variableKey'));
+        $labels  = [];
+        $dataset = [];
+
+        foreach ($data as $datum) {
+            array_push($labels, $datum['t']);
+            array_push($dataset, $datum['f0']);
+        }
+
+        $chart = new VirtualMeterDataChart;
+        $chart->labels($labels);
+        $chart->dataset($variableKey, 'line', $dataset)
+            ->options(['borderColor' => 'rgba(255, 41, 41, 0.8)'])
+            ->options(['borderWidth' => '0.5'])
+            ->options(['pointHoverRadius' => '0'])
+            ->backgroundColor('rgba(255, 41, 41, 0)');
+
+        return view('virtualMeters.show', compact('virtualMeter', 'data', 'variables', 'variableKey', 'chart'));
     }
 
     public function search(Request $request) {
@@ -143,7 +160,24 @@ class VirtualMeterController extends Controller {
         $to           = $request->to;
 
         $data = $this->getMeterData($virtualMeter, $variable, $from, $to);
-        return view('virtualMeters.queryResults', compact('data', 'virtualMeter', 'variableKey', 'from', 'to'));
+
+        $labels  = [];
+        $dataset = [];
+
+        foreach ($data as $datum) {
+            array_push($labels, $datum['t']);
+            array_push($dataset, $datum['f0']);
+        }
+
+        $chart = new VirtualMeterDataChart;
+        $chart->labels($labels);
+        $chart->dataset($variableKey, 'line', $dataset)
+            ->options(['borderColor' => 'rgba(255, 41, 41, 0.8)'])
+            ->options(['borderWidth' => '0.5'])
+            ->options(['pointHoverRadius' => '0'])
+            ->backgroundColor('rgba(255, 41, 41, 0)');
+
+        return view('virtualMeters.queryResults', compact('data', 'virtualMeter', 'variableKey', 'from', 'to', 'chart'));
     }
 
     /**

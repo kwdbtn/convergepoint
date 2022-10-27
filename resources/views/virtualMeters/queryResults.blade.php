@@ -7,9 +7,9 @@
             <h5 class="card-title">
                 <div class="d-flex justify-content-between">
                     <span>Query</span>
-                    <span>{{ $virtualMeter->name }}</span>  
-                    <span>{{ $variableKey }}</span>  
-                    <span>[{{ $from }}] - [{{ $to }}]</span>
+                    <small>{{ $virtualMeter->name }}</small>  
+                    <small>{{ $variableKey }}</small>  
+                    <small>[{{ $from }}] - [{{ $to }}]</small>
                 </div>
             </h5>
             <hr>
@@ -81,6 +81,11 @@
                             </tbody>
                         </table>
                     </div>
+                </div>
+
+                <div class="col-md-12 mt-5">
+                    {!! $chart->container() !!}
+                    {!! $chart->script() !!}
                 </div>
             </div>
             

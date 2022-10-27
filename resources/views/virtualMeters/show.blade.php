@@ -43,6 +43,11 @@
                             </tbody>
                         </table>
                     </div>
+                </div> 
+
+                <div class="col-md-12 mt-5">
+                    {!! $chart->container() !!}
+                    {!! $chart->script() !!}
                 </div>
             </div>
             
