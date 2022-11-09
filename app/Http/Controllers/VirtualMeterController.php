@@ -55,12 +55,12 @@ class VirtualMeterController extends Controller {
         $data = $this->getMeterData($virtualMeter, $variable, $from, $today);
 
         $variables = [
-            '+A'           => 16005, '+R'        => 16007, '+S'              => 16006, 'PF'          => 16017,
-            'XNU_A+'       => 1632, 'XNU_R+'     => 2123, '+A*Energy*Kwh'    => 24948, '+A*MaxD*Kw'  => 24952,
-            '+A*MaxD*Kw*'  => 17768, '+E*'       => 15532, '+E*Power'        => 17761, '+R*'         => 17764,
-            '+R*AvDem'     => 24951, '+R*AvDem*' => 24954, '+R*Energy*Kvarh' => 24949, '+R*Power'    => 17762,
-            '+S*'          => 17765, '+VA*Dem'   => 24945, '+VA*Dem*'        => 24950, 'PowerFactor' => 17766,
-            'PowerFactor*' => 24956,
+            'Active Power Load profile (15) (+A)'              => 16005, 'Reactive Power Load Profile (15) (+R)'            => 16007, 'Apparent Power Load Profile (15) (+S)'          => 16006, 'Power Factor (PF)'                           => 16017,
+            'Active Energy Load Profile (15) (XNU_A+)'         => 1632, 'Reactive Energy Load Profile (15) (XNU_R+)'        => 2123, 'Active Energy Stored Value (+A*Energy*Kwh)'      => 24948, 'Active Max Demand Stored Value (+A*MaxD*Kw)' => 24952,
+            'Active Max Demand Stored Value (+A*MaxD*Kw*)'     => 17768, 'Energy Running Values (+E*)'                      => 15532, 'Active Energy Running Values (+E*Power)'        => 17761, 'Reactive Energy (+R*)'                       => 17764,
+            'Reactive Average Demand Stored Value (+R*AvDem)'  => 24951, 'Reactive Average Demand Stored Value (+R*AvDem*)' => 24954, 'Reactive Energy Stored Value (+R*Energy*Kvarh)' => 24949, 'Reactive Power (+R*Power)'                   => 17762,
+            'Apparent Power (+S*)'                             => 17765, 'Apparent Power Demand (+VA*Dem)'                  => 24945, 'Apparent Demand Stored (+VA*Dem*)'              => 24950, 'Power Factor Instantaneous (PowerFactor)'    => 17766,
+            'Average Power Factor Stored Value (PowerFactor*)' => 24956,
         ];
 
         $variableKey = array_search($variable, $variables);

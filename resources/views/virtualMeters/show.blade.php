@@ -4,7 +4,7 @@
 <div class="container">
     <div class="card">
         <div class="card-body">
-            <h5 class="card-title">{{ $virtualMeter->name }} ({{ $variableKey }})
+            <h5 class="card-title">{{ $virtualMeter->name }} <span style="color: red">||</span> {{ $variableKey }}
                 <span class="float-right"><a href="{{ route('virtual-meters.index') }}" class="btn btn-sm btn-dark float-end">Back</a></span>
             </h5>
             <hr>
@@ -14,7 +14,7 @@
                     <div class="card" style="height: 500px; overflow:auto;">
                         <div class="card-body">
                             @foreach ($variables as $key => $variable)
-                                <li><a style="{{ $key == $variableKey ? 'color: black; font-weight: bold' : ''}}" href="{{ route('virtual-meters.show', [$virtualMeter, $variable]) }}">{{ $key }}</a></li> <hr>
+                                <li><a style="{{ $key == $variableKey ? 'color: black; font-weight: bold' : 'text-decoration: none'}}" href="{{ route('virtual-meters.show', [$virtualMeter, $variable]) }}">{{ $key }}</a></li> <hr>
                             @endforeach
                         </div>
                     </div>

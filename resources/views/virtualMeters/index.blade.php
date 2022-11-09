@@ -22,7 +22,7 @@
                             @else @foreach ($virtualMeters as $virtualMeter)
                             <tr scope="row">
                                 <td>{{ $loop->iteration }}</td>
-                                <td><a href="{{ route('virtual-meters.show', [$virtualMeter, 16005]) }}">{{ $virtualMeter->name }}</a></td>
+                                <td><a style="text-decoration: none" href="{{ route('virtual-meters.show', [$virtualMeter, 16005]) }}">{{ strToUpper($virtualMeter->name) }}</a></td>
                                 <td>{{ $virtualMeter->segment == 666001 ? "Public" : "Private" }}</td>
                             </tr>
                             @endforeach @endif
