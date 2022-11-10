@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CustomerController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -26,5 +27,10 @@ Route::get('virtual-meters/{virtualMeter}/{variable}', [App\Http\Controllers\Vir
 Route::post('virtual-meters/search/{virtualMeter}/{variable}/{from}/{to}', [App\Http\Controllers\VirtualMeterController::class, 'getMeterData'])->name('virtual-meters.search');
 Route::get('query', [App\Http\Controllers\VirtualMeterController::class, 'showQueryPage'])->name('virtual-meters.showQuery');
 Route::post('query/results', [App\Http\Controllers\VirtualMeterController::class, 'getQueryResults'])->name('virtual-meters.queryResults');
+Route::get('virtual-meters/refresh', [App\Http\Controllers\VirtualMeterController::class, 'refresh'])->name('virtual-meters.refresh');
 
 Route::get('variables', [App\Http\Controllers\ConvergeVariableController::class, 'index'])->name('variables.index');
+
+Route::resources([
+    'customers' => CustomerController::class,
+]);

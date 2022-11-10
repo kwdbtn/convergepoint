@@ -47,7 +47,11 @@
                         </li>
 
                         <li class="nav-item">
-                        <a class="nav-link {{ request()->is('query*') ? 'active' : '' }}" href="{{ route('virtual-meters.showQuery') }}">Query</a>
+                            <a class="nav-link {{ request()->is('query*') ? 'active' : '' }}" href="{{ route('virtual-meters.showQuery') }}">Query</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link {{ request()->is('customers*') ? 'active' : '' }}" href="{{ route('customers.index') }}">Customers</a>
                         </li>
                     </ul>
 

@@ -180,6 +180,58 @@ class VirtualMeterController extends Controller {
         return view('virtualMeters.queryResults', compact('data', 'virtualMeter', 'variableKey', 'from', 'to', 'chart'));
     }
 
+    public function refresh() {
+        $apiURL = 'https://converge4.gridcogh.com/rest_api/api/v1/acquisition/virtual-meter/list';
+
+        $headers = [
+            'Accept'       => 'application/json',
+            'Content-Type' => 'application/json',
+        ];
+
+        $client = new Client([
+            // 'base_uri' => 'https://ksi-ent-cba-01.gridcogh.com/rest_api/',
+            'base_uri' => 'https://converge4.gridcogh.com/rest_api/',
+            'verify'   => false,
+        ]);
+
+        $response = $client->request('POST', 'api/v1/login/user-login', [
+            'headers' => $headers,
+            'body'    => '{"userName":"gridcodev", "password":"Pa55w.rd"}',
+        ]);
+
+        $statusCode   = $response->getStatusCode();
+        $responseBody = json_decode($response->getBody(), true);
+        $token        = $responseBody["token"];
+
+        $response_meter_data = $client->request('GET', 'api/v1/acquisition/virtual-meter/list', [
+            'headers' => [
+                'Accept'        => 'application/json',
+                'Authorization' => 'Bearer ' . $token,
+                'content-type'  => 'application/json',
+            ],
+        ]);
+
+        $meterdata = json_decode($response_meter_data->getBody()->getContents(), true);
+
+        $virtualMeters = VirtualMeter::pluck('name', 'id');
+
+        // dd(!$virtualMeters->contains('VM_CAPE_COAST_S2'));
+
+        foreach ($meterdata['rows'] as $vm) {
+            if (!$virtualMeters->contains($vm[1])) {
+                VirtualMeter::create([
+                    'node_id' => $vm[0],
+                    'name'    => $vm[1],
+                    'segment' => $vm[2],
+                ]);
+            }
+        }
+
+        // dd($meterdata);
+
+        return redirect()->back();
+    }
+
     /**
      * Show the form for editing the specified resource.
      *
