@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Customer;
+use App\Models\VirtualMeter;
 use GuzzleHttp\Client;
 
 class HomeController extends Controller {
@@ -19,7 +21,53 @@ class HomeController extends Controller {
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
+
     public function index() {
+        $reader      = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
+        $spreadsheet = $reader->load("C:\\Users\\Kay\\Desktop\\telmeterdata.xlsx");
+        $sheetData   = $spreadsheet->getActiveSheet()->toArray();
+        $sheet       = $spreadsheet->getActiveSheet();
+
+        for ($i = 0; $i < count($sheetData); $i++) {
+            $meter = VirtualMeter::where('name', $sheetData[$i][3])->first();
+            // dd($sheetData[9][1]);
+
+            if (!is_null($meter)) {
+                // dd($meter->name);
+                // $meter->update([
+                //     'type' => "LOAD",
+                // ]);
+
+                // $location = MeterLocation::where('name', $sheetData[$i][0])->first();
+
+                // if (!is_null($location)) {
+                //     $meter->update([
+                //         'meter_location_id' => $location->id,
+                //     ]);
+                // }
+
+                // $feeder = Feeder::where('number', $sheetData[$i][1])->first();
+
+                // if (!is_null($feeder)) {
+                //     $meter->update([
+                //         'feeder_id' => $feeder->id,
+                //     ]);
+                // }
+
+                $customer = Customer::where('name', $sheetData[$i][2])->first();
+
+                if (!is_null($customer)) {
+                    $meter->update([
+                        'customer_id' => $customer->id,
+                    ]);
+                }
+            }
+        }
+
+        dd(true);
+    }
+
+    public function index_meter_data() {
         // $apiURL = 'https://ksi-ent-cba-01.gridcogh.com/rest_api/api/v1/login/user-login';
         $apiURL = 'https://converge4.gridcogh.com/rest_api/api/v1/login/user-login';
 
