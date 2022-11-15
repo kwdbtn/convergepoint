@@ -13,4 +13,8 @@ class Area extends Model {
     public function meter_locations() {
         return $this->hasMany(MeterLocation::class);
     }
+
+    public function virtual_meters() {
+        return $this->hasMany(VirtualMeter::class);
+    }
 }

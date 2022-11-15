@@ -53,6 +53,18 @@
                         <li class="nav-item">
                             <a class="nav-link {{ request()->is('customers*') ? 'active' : '' }}" href="{{ route('customers.index') }}">Customers</a>
                         </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link {{ request()->is('feeders*') ? 'active' : '' }}" href="{{ route('feeders.index') }}">Feeders/Plant Lines</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link {{ request()->is('meter-locations*') ? 'active' : '' }}" href="{{ route('meter-locations.index') }}">Meter Locations</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link {{ request()->is('losses*') ? 'active' : '' }}" href="{{ route('virtual-meters.showLossQuery') }}">Energy Readings</a>
+                        </li>
                     </ul>
 
                     <!-- Right Side Of Navbar -->

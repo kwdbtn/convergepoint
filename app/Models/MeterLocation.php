@@ -11,7 +11,7 @@ class MeterLocation extends Model {
     protected $fillable = ['name', 'area_id', 'active'];
 
     public function area() {
-        return $this->belongTo(Area::class);
+        return $this->belongsTo(Area::class);
     }
 
     public function virtual_meters() {

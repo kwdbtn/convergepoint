@@ -5,16 +5,15 @@ namespace App\Http\Controllers;
 use App\Models\MeterLocation;
 use Illuminate\Http\Request;
 
-class MeterLocationController extends Controller
-{
+class MeterLocationController extends Controller {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        //
+    public function index() {
+        $meterLocations = MeterLocation::orderBy('name')->get();
+        return view('meterLocations.index', compact('meterLocations'));
     }
 
     /**
@@ -22,8 +21,7 @@ class MeterLocationController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
+    public function create() {
         //
     }
 
@@ -33,8 +31,7 @@ class MeterLocationController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
+    public function store(Request $request) {
         //
     }
 
@@ -44,9 +41,8 @@ class MeterLocationController extends Controller
      * @param  \App\Models\MeterLocation  $MeterLocation
      * @return \Illuminate\Http\Response
      */
-    public function show(MeterLocation $meterLocation)
-    {
-        //
+    public function show(MeterLocation $meterLocation) {
+        return view('meterLocations.show', compact('meterLocation'));
     }
 
     /**
@@ -55,8 +51,7 @@ class MeterLocationController extends Controller
      * @param  \App\Models\MeterLocation  $MeterLocation
      * @return \Illuminate\Http\Response
      */
-    public function edit(MeterLocation $meterLocation)
-    {
+    public function edit(MeterLocation $meterLocation) {
         //
     }
 
@@ -67,8 +62,7 @@ class MeterLocationController extends Controller
      * @param  \App\Models\MeterLocation  $meterLocation
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, MeterLocation $meterLocation)
-    {
+    public function update(Request $request, MeterLocation $meterLocation) {
         //
     }
 
@@ -78,8 +72,7 @@ class MeterLocationController extends Controller
      * @param  \App\Models\MeterLocation  $meterLocation
      * @return \Illuminate\Http\Response
      */
-    public function destroy(MeterLocation $meterLocation)
-    {
+    public function destroy(MeterLocation $meterLocation) {
         //
     }
 }

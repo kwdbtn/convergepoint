@@ -5,16 +5,15 @@ namespace App\Http\Controllers;
 use App\Models\Feeder;
 use Illuminate\Http\Request;
 
-class FeederController extends Controller
-{
+class FeederController extends Controller {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        //
+    public function index() {
+        $feeders = Feeder::where('active', true)->orderBy('number', 'asc')->get();
+        return view('feeders.index', compact('feeders'));
     }
 
     /**
@@ -22,8 +21,7 @@ class FeederController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
+    public function create() {
         //
     }
 
@@ -33,8 +31,7 @@ class FeederController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
+    public function store(Request $request) {
         //
     }
 
@@ -44,9 +41,8 @@ class FeederController extends Controller
      * @param  \App\Models\Feeder  $feeder
      * @return \Illuminate\Http\Response
      */
-    public function show(Feeder $feeder)
-    {
-        //
+    public function show(Feeder $feeder) {
+        return view('feeders.show', compact('feeder'));
     }
 
     /**
@@ -55,8 +51,7 @@ class FeederController extends Controller
      * @param  \App\Models\Feeder  $feeder
      * @return \Illuminate\Http\Response
      */
-    public function edit(Feeder $feeder)
-    {
+    public function edit(Feeder $feeder) {
         //
     }
 
@@ -67,8 +62,7 @@ class FeederController extends Controller
      * @param  \App\Models\Feeder  $feeder
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Feeder $feeder)
-    {
+    public function update(Request $request, Feeder $feeder) {
         //
     }
 
@@ -78,8 +72,7 @@ class FeederController extends Controller
      * @param  \App\Models\Feeder  $feeder
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Feeder $feeder)
-    {
+    public function destroy(Feeder $feeder) {
         //
     }
 }

@@ -4,8 +4,8 @@
 <div class="container">
     <div class="card">
         <div class="card-body">
-            <h4 class="card-title"><strong>{{ $customer->name }} Meters</strong>
-                <span class="float-right"><a href="{{ route('customers.index') }}" class="btn btn-sm btn-dark float-end">Back</a></span>
+            <h4 class="card-title"><strong>{{ $meterLocation->name }} Virtual Meters</strong>
+                <span class="float-right"><a href="{{ route('meter-locations.index') }}" class="btn btn-sm btn-dark float-end">Back</a></span>
             </h4>
             <hr>
             <div class="table-responsive table-striped">
@@ -21,8 +21,8 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @if ($customer->virtual_meters->isEmpty())
-                            @else @foreach ($customer->virtual_meters as $virtualMeter)
+                        @if ($meterLocation->virtual_meters->isEmpty())
+                            @else @foreach ($meterLocation->virtual_meters as $virtualMeter)
                             <tr scope="row">
                                 <td>{{ $loop->iteration }}</td>
                                 <td><a style="text-decoration: none" href="{{ route('virtual-meters.show', [$virtualMeter, 16005]) }}">{{ strToUpper($virtualMeter->name) }}</a></td>

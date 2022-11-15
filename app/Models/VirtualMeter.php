@@ -15,14 +15,18 @@ class VirtualMeter extends Model {
     }
 
     public function customer() {
-        return $this->belongTo(Customer::class);
+        return $this->belongsTo(Customer::class);
     }
 
     public function feeder() {
-        return $this->belongTo(Feeder::class);
+        return $this->belongsTo(Feeder::class);
     }
 
     public function meter_location() {
-        return $this->belongTo(MeterLocation::class);
+        return $this->belongsTo(MeterLocation::class);
+    }
+
+    public function area() {
+        return $this->belongsTo(Area::class);
     }
 }

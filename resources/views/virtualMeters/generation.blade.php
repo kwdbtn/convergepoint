@@ -4,8 +4,8 @@
 <div class="container">
     <div class="card">
         <div class="card-body">
-            <h4 class="card-title"><strong>Virtual Meters</strong>
-                <span class="float-right"><a href="{{ route('virtual-meters.refresh') }}" class="btn btn-sm btn-dark float-end">Refresh</a></span>
+            <h4 class="card-title"><strong>Virtual Meters - Generators</strong>
+                <span class="float-right"><a href="{{ route('virtual-meters.calculate-losses') }}" class="btn btn-sm btn-dark float-end">Back</a></span>
             </h4>
             <hr>
             <div class="table-responsive table-striped">
@@ -35,7 +35,6 @@
                                 @else
                                     <td> </td>
                                 @endif
-                                {{-- <td>{{ strToUpper($virtualMeter->meter_location->name ?? "") }}</td> --}}
                                 @if (!is_null($virtualMeter->meter_location))
                                     <td><a style="text-decoration: none" href="{{ route('meter-locations.show', $virtualMeter->meter_location) }}">{{ strToUpper($virtualMeter->meter_location->name ?? "") }}</a></td>
                                 @else

@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\FeederController;
+use App\Http\Controllers\MeterLocationController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -28,9 +30,18 @@ Route::post('virtual-meters/search/{virtualMeter}/{variable}/{from}/{to}', [App\
 Route::get('query', [App\Http\Controllers\VirtualMeterController::class, 'showQueryPage'])->name('virtual-meters.showQuery');
 Route::post('query/results', [App\Http\Controllers\VirtualMeterController::class, 'getQueryResults'])->name('virtual-meters.queryResults');
 Route::get('virtual-meters/refresh', [App\Http\Controllers\VirtualMeterController::class, 'refresh'])->name('virtual-meters.refresh');
+Route::get('virtual-meters/daily-consumption/{virtualMeter}', [App\Http\Controllers\VirtualMeterController::class, 'getMeterDailyConsumption'])->name('virtual-meters.daily-consumption');
+
+Route::get('virtual-meters/load', [App\Http\Controllers\VirtualMeterController::class, 'load'])->name('virtual-meters.load');
+Route::get('virtual-meters/generation', [App\Http\Controllers\VirtualMeterController::class, 'generation'])->name('virtual-meters.generation');
+
+Route::get('losses/query', [App\Http\Controllers\VirtualMeterController::class, 'showLossQueryPage'])->name('virtual-meters.showLossQuery');
+Route::post('losses', [App\Http\Controllers\VirtualMeterController::class, 'lossCalculation'])->name('virtual-meters.calculate-losses');
 
 Route::get('variables', [App\Http\Controllers\ConvergeVariableController::class, 'index'])->name('variables.index');
 
 Route::resources([
-    'customers' => CustomerController::class,
+    'customers'       => CustomerController::class,
+    'feeders'         => FeederController::class,
+    'meter-locations' => MeterLocationController::class,
 ]);
