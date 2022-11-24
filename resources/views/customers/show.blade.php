@@ -8,6 +8,14 @@
                 <span class="float-right"><a href="{{ route('customers.index') }}" class="btn btn-sm btn-dark float-end">Back</a></span>
             </h4>
             <hr>
+
+            <ul>
+                <li><a href="{{ route('customers.currentbill') }}">Current Bill</a></li>
+                <li><a href="{{ route('customers.currentstatementsheet') }}">Current Statement Sheet</a></li>
+                <li><a href="{{ route('customers.currentcoverletter') }}">Current Cover Letter</a></li>
+            </ul>
+
+            <hr>
             <div class="table-responsive table-striped">
                 <table class="table table-borderless table-striped table-hover table-myDataTable">
                     <thead class="thead-light">
@@ -34,6 +42,14 @@
                             @endforeach @endif
                     </tbody>
                 </table>
+            </div> <hr>
+            <div class="col-12">
+                Comments:
+                <textarea name="comments" id="comments" cols="10" rows="2" class="col-12"></textarea>
+                <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                    <button type="button" class="btn btn-primary">Approve</button>
+                    <button type="button" class="btn btn-danger">Reject</button>
+                </div>
             </div>
         </div>
     </div>

@@ -55,6 +55,21 @@ class CustomerController extends Controller {
         return view('customers.form', compact('customer'));
     }
 
+    public function currentbill(Customer $customer) {
+        $file = storage_path('app/bills/customer_bill.pdf');
+        return response()->file($file);
+    }
+
+    public function currentstatementsheet(Customer $customer) {
+        $file = storage_path('app/statement_sheets/statement_sheet.pdf');
+        return response()->file($file);
+    }
+
+    public function currentcoverletter(Customer $customer) {
+        $file = storage_path('app/cover_letters/cover_letter.pdf');
+        return response()->file($file);
+    }
+
     /**
      * Update the specified resource in storage.
      *

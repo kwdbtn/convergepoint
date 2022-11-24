@@ -13,13 +13,14 @@
                     <thead class="thead-light">
                         <tr>
                             <th scope="col">#</th>
+                            <th scope="col">Converge Name</th>
                             <th scope="col">Name</th>
                             <th scope="col">Serial No.</th>
                             <th scope="col">Type</th>
-                            <th scope="col">Feeder/Plant Line</th>
+                            <th scope="col">Feeder/Line/SS</th>
                             <th scope="col">Location</th>
                             <th scope="col">Customer</th>
-                            <th scope="col">Active</th>
+                            {{-- <th scope="col">Action</th> --}}
                         </tr>
                     </thead>
                     <tbody>
@@ -28,6 +29,7 @@
                             <tr scope="row">
                                 <td>{{ $loop->iteration }}</td>
                                 <td><a style="text-decoration: none" href="{{ route('virtual-meters.show', [$virtualMeter, 16005]) }}">{{ strToUpper($virtualMeter->name) }}</a></td>
+                                <td></td>
                                 <td>{{ strToUpper($virtualMeter->serial_number ?? "") }}</td>
                                 <td>{{ strToUpper($virtualMeter->type ?? "") }}</td>
                                 @if (!is_null($virtualMeter->feeder))
@@ -46,7 +48,8 @@
                                 @else
                                     <td> </td>
                                 @endif
-                                <td>{{ $virtualMeter->active == 1 ? "YES" : "NO" }}</td>
+                                {{-- <td><a href="{{ route('virtual-meters.edit', $virtualMeter) }}"
+                                    class="btn btn-sm btn-outline-primary">Edit</a></td> --}}
                             </tr>
                             @endforeach @endif
                     </tbody>

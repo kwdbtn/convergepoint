@@ -37,5 +37,14 @@ class ComposerServiceProvider extends ServiceProvider {
 
             $view->with('arr', $arr);
         });
+
+        view()->composer('variables.form', function ($view) {
+            $types = [
+                0 => 'Billing Value',
+                1 => 'Load Profile',
+            ];
+
+            $view->with('types', $types);
+        });
     }
 }

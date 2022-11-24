@@ -26,42 +26,43 @@ class HomeController extends Controller {
      * @return \Illuminate\Contracts\Support\Renderable
      */
     public function index() {
-        // $virtualMeters   = VirtualMeter::where('type', 'LOAD')->get();
-        // $consumptionData = [];
-        // foreach ($virtualMeters as $virtualMeter) {
-        //     $data = $this->getMeterData($virtualMeter, 1632, "2022-11-01T00:00:00Z", "2022-11-01T00:00:00Z");
-        //     // dd($data);
-        //     // array_push($consumptionData, $data);
-
-        //     foreach ($data as $datum) {
-        //         Reading::create([
-        //             'name'             => 'XNU_A+',
-        //             'timestamp'        => $datum['t'],
-        //             'norm'             => $datum['f0'],
-        //             'norm_unit'        => $datum['f2'],
-        //             'virtual_meter_id' => $virtualMeter->id,
-        //         ]);
-        //     }
-        // }
-
         // $virtualMeters   = VirtualMeter::where('type', 'GENERATOR')->get();
         // $consumptionData = [];
         // foreach ($virtualMeters as $virtualMeter) {
-        //     $data = $this->getMeterData($virtualMeter, 1632, "2022-11-01T00:00:00Z", "2022-11-01T00:00:00Z");
+        //     $data = $this->getMeterData($virtualMeter, 1633, "2022-09-01T00:00:00Z", "2022-09-30T00:00:00Z");
         //     // dd($data);
         //     // array_push($consumptionData, $data);
 
         //     foreach ($data as $datum) {
         //         Reading::create([
-        //             'name'             => 'XNU_A+',
+        //             'name'             => 'XNU_A-',
         //             'timestamp'        => $datum['t'],
         //             'norm'             => $datum['f0'],
         //             'norm_unit'        => $datum['f2'],
         //             'virtual_meter_id' => $virtualMeter->id,
-        //             'type'             => 'GENERATOR',
+        //             'type'             => 'LOAD',
         //         ]);
         //     }
         // }
+
+        $virtualMeters   = VirtualMeter::where('type', 'GENERATOR')->get();
+        $consumptionData = [];
+        foreach ($virtualMeters as $virtualMeter) {
+            $data = $this->getMeterData($virtualMeter, 1632, "2022-09-01T00:00:00Z", "2022-09-30T00:00:00Z");
+            // dd($data);
+            // array_push($consumptionData, $data);
+
+            foreach ($data as $datum) {
+                Reading::create([
+                    'name'             => 'XNU_A+',
+                    'timestamp'        => $datum['t'],
+                    'norm'             => $datum['f0'],
+                    'norm_unit'        => $datum['f2'],
+                    'virtual_meter_id' => $virtualMeter->id,
+                    'type'             => 'GENERATOR',
+                ]);
+            }
+        }
 
         // dd(count($consumptionData));
 
@@ -85,7 +86,6 @@ class HomeController extends Controller {
         // dd($generation);
         dd(($loss / $generation) * 100);
     }
-
 
     public function index_store_readings() {
         $virtualMeters = VirtualMeter::all();

@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class VirtualMeter extends Model {
     use HasFactory;
 
-    protected $fillable = ['node_id', 'name', 'segment', 'serial_number', 'customer_id', 'feeder_id', 'meter_location_id', 'type', 'active'];
+    protected $fillable = ['node_id', 'name', 'alias', 'segment', 'serial_number', 'customer_id', 'feeder_id', 'meter_location_id', 'type', 'active'];
 
     public function readings() {
         return $this->hasMany(Reading::class);

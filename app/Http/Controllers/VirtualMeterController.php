@@ -427,8 +427,8 @@ class VirtualMeterController extends Controller {
      * @param  \App\Models\VirtualMeter  $virtualMeter
      * @return \Illuminate\Http\Response
      */
-    public function edit(VirtualMeter $virtualMeter) {
-        //
+    public function edit(VirtualMeter $virtual_meter) {
+        return view('virtualMeters.form', compact('virtual_meter'));
     }
 
     /**

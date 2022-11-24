@@ -51,8 +51,8 @@ class ConvergeVariableController extends Controller {
      * @param  \App\Models\ConvergeVariable  $convergeVariable
      * @return \Illuminate\Http\Response
      */
-    public function edit(ConvergeVariable $convergeVariable) {
-        //
+    public function edit(ConvergeVariable $variable) {
+        return view('variables.form', compact('variable'));
     }
 
     /**
@@ -62,8 +62,16 @@ class ConvergeVariableController extends Controller {
      * @param  \App\Models\ConvergeVariable  $convergeVariable
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, ConvergeVariable $convergeVariable) {
-        //
+    public function update(Request $request, ConvergeVariable $variable) {
+        $variable->update([
+            'name'        => $request->name,
+            'description' => $request->description,
+            'obis'        => $request->obis,
+            'pvmCount'    => $request->pvmCount,
+            'type'        => $request->type,
+        ]);
+
+        return redirect()->route('variables.index');
     }
 
     /**
