@@ -25,7 +25,7 @@ class HomeController extends Controller {
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index() {
+    public function indexx() {
         $virtualMeters   = VirtualMeter::where('type', 'GENERATOR')->get();
         $consumptionData = [];
         foreach ($virtualMeters as $virtualMeter) {

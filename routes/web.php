@@ -47,6 +47,7 @@ Route::post('losses', [App\Http\Controllers\VirtualMeterController::class, 'loss
 Route::get('customers/currentbill', [CustomerController::class, 'currentbill'])->name('customers.currentbill');
 Route::get('customers/statementsheet', [CustomerController::class, 'currentstatementsheet'])->name('customers.currentstatementsheet');
 Route::get('customers/coverletter', [CustomerController::class, 'currentcoverletter'])->name('customers.currentcoverletter');
+Route::get('customers/email/{customer}/{virtualMeter}/send-email', [CustomerController::class, 'sendEmail'])->name('customers.send-email');
 
 Route::resources([
     'customers'       => CustomerController::class,
@@ -54,3 +55,6 @@ Route::resources([
     'meter-locations' => MeterLocationController::class,
     'variables'       => ConvergeVariableController::class,
 ]);
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

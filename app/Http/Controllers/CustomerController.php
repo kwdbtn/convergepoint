@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Customer;
+use App\Models\VirtualMeter;
 use Illuminate\Http\Request;
 
 class CustomerController extends Controller {
@@ -68,6 +69,17 @@ class CustomerController extends Controller {
     public function currentcoverletter(Customer $customer) {
         $file = storage_path('app/cover_letters/cover_letter.pdf');
         return response()->file($file);
+    }
+
+    public function sendEmail(Customer $customer, VirtualMeter $virtualMeter) {
+        $data = [
+            'title'        => "Telemetry - Rejected",
+            'virtualMeter' => $virtualMeter,
+            'customer'     => $customer,
+        ];
+
+        \Mail::to('kwadwo.boateng@gridcogh.com')->send(new \App\Mail\TelemetryMail($data));
+        echo "Email has been sent!";
     }
 
     /**

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "169eae7af0a616ad49cb98fcc1e88a61",
+    "content-hash": "d6d3812dd99200e717ad9e1e8bcf0abc",
     "packages": [
         {
             "name": "balping/json-raw-encoder",
@@ -1773,16 +1773,16 @@
         },
         {
             "name": "laravel/ui",
-            "version": "v4.0.0",
+            "version": "v4.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/ui.git",
-                "reference": "e6291e8083cb5255511eacd6da0ec078210beabd"
+                "reference": "ac94e596ffd39c63cfa41f5407b765b07df97483"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/ui/zipball/e6291e8083cb5255511eacd6da0ec078210beabd",
-                "reference": "e6291e8083cb5255511eacd6da0ec078210beabd",
+                "url": "https://api.github.com/repos/laravel/ui/zipball/ac94e596ffd39c63cfa41f5407b765b07df97483",
+                "reference": "ac94e596ffd39c63cfa41f5407b765b07df97483",
                 "shasum": ""
             },
             "require": {
@@ -1828,9 +1828,9 @@
                 "ui"
             ],
             "support": {
-                "source": "https://github.com/laravel/ui/tree/v4.0.0"
+                "source": "https://github.com/laravel/ui/tree/v4.1.1"
             },
-            "time": "2022-07-25T10:21:27+00:00"
+            "time": "2022-12-05T15:09:21+00:00"
         },
         {
             "name": "laravelcollective/html",
