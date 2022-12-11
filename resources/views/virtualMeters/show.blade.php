@@ -11,7 +11,16 @@
 
             <div class="row">
                 <div class="col-md-4">
-                    <div class="card" style="height: 500px; overflow:auto;">
+                    <div class="card mb-2" style="height: 250px; overflow:auto;">
+                        <div class="card-header">LOAD PROFILE</div>
+                        <div class="card-body">
+                            @foreach ($variables as $key => $variable)
+                                <li><a style="{{ $key == $variableKey ? 'color: black; font-weight: bold' : 'text-decoration: none'}}" href="{{ route('virtual-meters.show', [$virtualMeter, $variable]) }}">{{ $key }}</a></li> <hr>
+                            @endforeach
+                        </div>
+                    </div>
+                    <div class="card" style="height: 250px; overflow:auto;">
+                        <div class="card-header">BILLING VALUES</div>
                         <div class="card-body">
                             @foreach ($variables as $key => $variable)
                                 <li><a style="{{ $key == $variableKey ? 'color: black; font-weight: bold' : 'text-decoration: none'}}" href="{{ route('virtual-meters.show', [$virtualMeter, $variable]) }}">{{ $key }}</a></li> <hr>
@@ -26,8 +35,8 @@
                                 <tr>
                                     <th scope="col">#</th>
                                     <th scope="col">Timestamp</th>
-                                    <th scope="col">Norm</th>
-                                    <th scope="col">Norm Unit</th>
+                                    <th scope="col">Value</th>
+                                    <th scope="col">Unit</th>
                                 </tr>
                             </thead>
                             <tbody>

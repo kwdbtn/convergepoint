@@ -16,7 +16,7 @@ class VirtualMeterController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function index() {
-        $virtualMeters = VirtualMeter::orderBy('name')->get();
+        $virtualMeters = VirtualMeter::where('active', 1)->orderBy('name')->get();
         return view('virtualMeters.index', compact('virtualMeters'));
     }
 
@@ -25,8 +25,8 @@ class VirtualMeterController extends Controller {
      *
      * @return \Illuminate\Http\Response
      */
-    public function create() {
-        //
+    public function create(VirtualMeter $virtualMeter) {
+        return view('virtualMeters.form', compact('virtualMeter'));
     }
 
     /**
@@ -199,51 +199,6 @@ class VirtualMeterController extends Controller {
         return view('virtualMeters.queryResults', compact('data', 'virtualMeter', 'variableKey', 'from', 'to', 'chart'));
     }
 
-    public function calculateLosses() {
-        $virtualMetersLoad       = VirtualMeter::where('type', 'LOAD')->get();
-        $virtualMetersGenerators = VirtualMeter::where('type', 'GENERATOR')->get();
-
-        $firstLoad = Reading::where('timestamp', "2022-10-01T00:00:00Z")
-            ->where('type', 'LOAD')
-            ->sum('norm');
-        $secondLoad = Reading::where('timestamp', "2022-11-01T00:00:00Z")
-            ->where('type', 'LOAD')
-            ->sum('norm');
-
-        $firstGeneration = Reading::where('timestamp', "2022-10-01T00:00:00Z")
-            ->where('type', 'GENERATOR')
-            ->sum('norm');
-        $secondGeneration = Reading::where('timestamp', "2022-11-01T00:00:00Z")
-            ->where('type', 'GENERATOR')
-            ->sum('norm');
-
-        // dd($firstGeneration . ' ' . $secondGeneration);
-
-        $consumption = $secondLoad - $firstLoad;
-        $generation  = $secondGeneration - $firstGeneration;
-
-        $losses = $generation - $consumption;
-
-        $metersChart = new VirtualMeterDataChart;
-        $metersChart->labels(['Load', 'Generators']);
-        $metersChart->dataset('Virtual Meters', 'doughnut', [count($virtualMetersLoad), count($virtualMetersGenerators)])
-            ->backgroundColor([
-                'rgb(255, 99, 132)',
-                'rgb(54, 162, 235)',
-            ]);
-
-        $readingChart = new VirtualMeterDataChart;
-        $readingChart->labels(['Consumption', 'Generation', 'Losses']);
-        $readingChart->dataset('Energy Readings (wh)', 'bar', [$consumption, $generation, $losses])
-            ->backgroundColor([
-                'rgb(54, 162, 235)',
-                'rgb(255, 99, 132)',
-                'rgb(255, 205, 86)',
-            ]);
-
-        return view('virtualMeters.losses', compact('virtualMetersLoad', 'virtualMetersGenerators', 'consumption', 'generation', 'losses', 'metersChart', 'readingChart'));
-    }
-
     public function showLossQueryPage() {
         return view('virtualMeters.lossquery');
     }
@@ -252,41 +207,41 @@ class VirtualMeterController extends Controller {
         $virtualMetersLoad       = VirtualMeter::where('type', 'LOAD')->get();
         $virtualMetersGenerators = VirtualMeter::where('type', 'GENERATOR')->get();
 
-        $accra = VirtualMeter::where('type', 'LOAD')
-            ->where('area_id', 1)
-            ->get();
+        // $accra = VirtualMeter::where('type', 'LOAD')
+        //     ->where('area_id', 1)
+        //     ->get();
 
-        $tema = VirtualMeter::where('type', 'LOAD')
-            ->where('area_id', 2)
-            ->get();
+        // $tema = VirtualMeter::where('type', 'LOAD')
+        //     ->where('area_id', 2)
+        //     ->get();
 
-        $akosombo = VirtualMeter::where('type', 'LOAD')
-            ->where('area_id', 3)
-            ->get();
+        // $akosombo = VirtualMeter::where('type', 'LOAD')
+        //     ->where('area_id', 3)
+        //     ->get();
 
-        $takoradi = VirtualMeter::where('type', 'LOAD')
-            ->where('area_id', 4)
-            ->get();
+        // $takoradi = VirtualMeter::where('type', 'LOAD')
+        //     ->where('area_id', 4)
+        //     ->get();
 
-        $prestea = VirtualMeter::where('type', 'LOAD')
-            ->where('area_id', 5)
-            ->get();
+        // $prestea = VirtualMeter::where('type', 'LOAD')
+        //     ->where('area_id', 5)
+        //     ->get();
 
-        $bolgatanga = VirtualMeter::where('type', 'LOAD')
-            ->where('area_id', 6)
-            ->get();
+        // $bolgatanga = VirtualMeter::where('type', 'LOAD')
+        //     ->where('area_id', 6)
+        //     ->get();
 
-        $tamale = VirtualMeter::where('type', 'LOAD')
-            ->where('area_id', 7)
-            ->get();
+        // $tamale = VirtualMeter::where('type', 'LOAD')
+        //     ->where('area_id', 7)
+        //     ->get();
 
-        $techiman = VirtualMeter::where('type', 'LOAD')
-            ->where('area_id', 8)
-            ->get();
+        // $techiman = VirtualMeter::where('type', 'LOAD')
+        //     ->where('area_id', 8)
+        //     ->get();
 
-        $kumasi = VirtualMeter::where('type', 'LOAD')
-            ->where('area_id', 9)
-            ->get();
+        // $kumasi = VirtualMeter::where('type', 'LOAD')
+        //     ->where('area_id', 9)
+        //     ->get();
 
         $fromDate = $request->from;
         $toDate   = $request->to;
@@ -294,14 +249,72 @@ class VirtualMeterController extends Controller {
         $from = Carbon::parse($fromDate)->toIso8601ZuluString();
         $to   = Carbon::parse($toDate)->toIso8601ZuluString();
 
-        $firstLoad = Reading::where('timestamp', $from)
-            ->where('type', 'LOAD')
-            ->sum('norm');
+        // filter out all the unknowns from the first load readings
+        $readingsFrom = Reading::where([
+            ['timestamp', '=', $from],
+            ['type', '=', 'LOAD'],
+            ['norm_unit', '<>', 'unknown'],
+        ])->get();
 
-        $secondLoad = Reading::where('timestamp', $to)
-            ->where('type', 'LOAD')
-            ->sum('norm');
+        // filter out all the knowns from the second load readings
+        $readingsTo = Reading::where([
+            ['timestamp', '=', $to],
+            ['type', '=', 'LOAD'],
+            ['norm_unit', '=', 'unknown'],
+        ])->get();
+
+        $baseGenerators = Reading::where([
+            ['timestamp', '=', $from],
+            ['type', '=', 'GENERATOR'],
+        ])->get();
+
+        $firstLoadMeters          = [];
+        $secondLoadMetersUnknowns = [];
+        $baseMeters               = [];
+
+        // get all meters without null values as the base for
+        // second load calculation
+        foreach ($readingsFrom as $reading) {
+            array_push($firstLoadMeters, $reading->virtual_meter_id);
+        }
+
+        // dd(count($firstLoadMeters));
+
+        // get all meters with null values
+        foreach ($readingsTo as $reading) {
+            array_push($secondLoadMetersUnknowns, $reading->virtual_meter_id);
+        }
+
+        foreach ($secondLoadMetersUnknowns as $loadMeter) {
+            $key = array_search($loadMeter, $firstLoadMeters);
+
+            if ($key !== false) {
+                unset($firstLoadMeters[$key]);
+            }
+        }
+
+        $baseMeters = array_values($firstLoadMeters);
+
+        $firstLoad  = 0;
+        $secondLoad = 0;
+        foreach ($baseMeters as $loadMeter) {
+            $firstLoad += Reading::where([
+                ['timestamp', '=', $from],
+                ['type', '=', 'LOAD'],
+                ['virtual_meter_id', '=', $loadMeter],
+            ])->value('norm');
+
+            $secondLoad += Reading::where([
+                ['timestamp', '=', $to],
+                ['type', '=', 'LOAD'],
+                ['virtual_meter_id', '=', $loadMeter],
+            ])->value('norm');
+        }
+
+        // calculate consumption
         $consumption = $secondLoad - $firstLoad;
+
+        // dd($consumption);
 
         $firstGeneration = Reading::where('timestamp', $from)
             ->where('type', 'GENERATOR')
@@ -311,13 +324,13 @@ class VirtualMeterController extends Controller {
             ->where('type', 'GENERATOR')
             ->sum('norm');
 
-        $consumption = $secondLoad - $firstLoad;
-        $generation  = $secondGeneration - $firstGeneration;
-        $losses      = $generation - $consumption;
+        $generation     = $secondGeneration - $firstGeneration;
+        $losses         = $generation - $consumption;
+        $percentageLoss = ($losses / $generation) * 100;
 
         $metersChart = new VirtualMeterDataChart;
         $metersChart->labels(['Load', 'Generators']);
-        $metersChart->dataset('Virtual Meters', 'doughnut', [count($virtualMetersLoad), count($virtualMetersGenerators)])
+        $metersChart->dataset('Virtual Meters', 'doughnut', [count($baseMeters), count($baseGenerators)])
             ->backgroundColor([
                 'rgb(255, 99, 132)',
                 'rgb(54, 162, 235)',
@@ -332,27 +345,27 @@ class VirtualMeterController extends Controller {
                 'rgb(255, 205, 86)',
             ]);
 
-        $areaChart = new VirtualMeterDataChart;
-        $areaChart->labels(['Accra', 'Tema', 'Akosombo', 'Takoradi', 'Prestea', 'Bolgatanga', 'Tamale', 'Techiman', 'Kumasi']);
-        $areaChart->dataset('Load - Meter Count', 'bar',
-            [count($accra), count($tema),
-                count($akosombo), count($takoradi),
-                count($prestea), count($bolgatanga),
-                count($tamale), count($techiman), count($kumasi)]
-        )
-            ->backgroundColor([
-                'rgb(255, 99, 132)',
-                'rgb(255, 99, 132)',
-                'rgb(255, 99, 132)',
-                'rgb(255, 99, 132)',
-                'rgb(255, 99, 132)',
-                'rgb(255, 99, 132)',
-                'rgb(255, 99, 132)',
-                'rgb(255, 99, 132)',
-                'rgb(255, 99, 132)',
-            ]);
+        // $areaChart = new VirtualMeterDataChart;
+        // $areaChart->labels(['Accra', 'Tema', 'Akosombo', 'Takoradi', 'Prestea', 'Bolgatanga', 'Tamale', 'Techiman', 'Kumasi']);
+        // $areaChart->dataset('Load - Meter Count', 'bar',
+        //     [count($accra), count($tema),
+        //         count($akosombo), count($takoradi),
+        //         count($prestea), count($bolgatanga),
+        //         count($tamale), count($techiman), count($kumasi)]
+        // )
+        //     ->backgroundColor([
+        //         'rgb(255, 99, 132)',
+        //         'rgb(255, 99, 132)',
+        //         'rgb(255, 99, 132)',
+        //         'rgb(255, 99, 132)',
+        //         'rgb(255, 99, 132)',
+        //         'rgb(255, 99, 132)',
+        //         'rgb(255, 99, 132)',
+        //         'rgb(255, 99, 132)',
+        //         'rgb(255, 99, 132)',
+        //     ]);
 
-        return view('virtualMeters.losses', compact('virtualMetersLoad', 'virtualMetersGenerators', 'consumption', 'generation', 'losses', 'metersChart', 'readingChart', 'fromDate', 'toDate', 'areaChart'));
+        return view('virtualMeters.losses', compact('baseMeters', 'baseGenerators', 'consumption', 'generation', 'losses', 'percentageLoss', 'metersChart', 'readingChart', 'fromDate', 'toDate', 'virtualMetersLoad', 'virtualMetersGenerators'));
     }
 
     public function refresh() {
@@ -427,8 +440,8 @@ class VirtualMeterController extends Controller {
      * @param  \App\Models\VirtualMeter  $virtualMeter
      * @return \Illuminate\Http\Response
      */
-    public function edit(VirtualMeter $virtual_meter) {
-        return view('virtualMeters.form', compact('virtual_meter'));
+    public function edit(VirtualMeter $virtualMeter) {
+        return view('virtualMeters.form', compact('virtualMeter'));
     }
 
     /**
@@ -439,7 +452,19 @@ class VirtualMeterController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, VirtualMeter $virtualMeter) {
-        //
+        $virtualMeter->update([
+            'name'              => $request->name,
+            'alias'             => $request->alias,
+            'type'              => $request->type,
+            'serial_number'     => $request->serial_number,
+            'customer_id'       => $request->customer_id,
+            'feeder_id'         => $request->feeder_id,
+            'area_id'           => $request->area_id,
+            'meter_location_id' => $request->meter_location_id,
+            'load_type'         => $request->load_type,
+        ]);
+
+        return redirect()->route('virtual-meters.index');
     }
 
     /**

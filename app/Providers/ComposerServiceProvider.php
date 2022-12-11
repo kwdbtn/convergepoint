@@ -2,6 +2,10 @@
 
 namespace App\Providers;
 
+use App\Models\Area;
+use App\Models\Customer;
+use App\Models\Feeder;
+use App\Models\MeterLocation;
 use App\Models\VirtualMeter;
 use Illuminate\Support\ServiceProvider;
 
@@ -45,6 +49,31 @@ class ComposerServiceProvider extends ServiceProvider {
             ];
 
             $view->with('types', $types);
+        });
+
+        view()->composer('virtualMeters.form', function ($view) {
+            $arr = [
+                'types'           => [
+                    'LOAD'        => 'LOAD',
+                    'GENERATOR'   => 'GENERATOR',
+                    'LINE'        => 'LINE',
+                    'CHECK METER' => 'CHECK METER',
+                    'SPARE METER' => 'SPARE METER',
+                ],
+
+                'load_types'      => [
+                    'CUSTOMER'        => 'CUSTOMER',
+                    'STATION SERVICE' => 'STATION SERVICE',
+                    null              => 'LINE/GENERATOR',
+                ],
+
+                'customers'       => Customer::orderBy('name', 'asc')->pluck('name', 'id'),
+                'feeders'         => Feeder::orderBy('number', 'asc')->pluck('number', 'id'),
+                'areas'           => Area::orderBy('name', 'asc')->pluck('name', 'id'),
+                'meter_locations' => MeterLocation::orderBy('name', 'asc')->pluck('name', 'id'),
+            ];
+
+            $view->with('arr', $arr);
         });
     }
 }

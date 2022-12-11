@@ -64,8 +64,8 @@
                                 <tr>
                                     <th scope="col">#</th>
                                     <th scope="col">Timestamp</th>
-                                    <th scope="col">Norm</th>
-                                    <th scope="col">Norm Unit</th>
+                                    <th scope="col">Value</th>
+                                    <th scope="col">Unit</th>
                                 </tr>
                             </thead>
                             <tbody>

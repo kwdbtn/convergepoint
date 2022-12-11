@@ -25,7 +25,7 @@
                             @else @foreach ($variables as $variable)
                             <tr scope="row">
                                 <td>{{ $loop->iteration }}</td>
-                                <td><a style="text-decoration: none" href="{{ route('variables.edit', $variable) }}">{{ $variable->name }}</a></td>
+                                <td><a style="text-decoration: none" href="{{ route('variables.edit', $variable) }}">{{ $variable->alias }}</a></td>
                                 <td>{{ $variable->description }}</td>
                                 <td>{{ $variable->obis }}</td>
                                 <td>{{ $variable->pvmCount }}</td>

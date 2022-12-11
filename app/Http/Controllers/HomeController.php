@@ -26,29 +26,10 @@ class HomeController extends Controller {
      * @return \Illuminate\Contracts\Support\Renderable
      */
     public function index() {
-        // $virtualMeters   = VirtualMeter::where('type', 'GENERATOR')->get();
-        // $consumptionData = [];
-        // foreach ($virtualMeters as $virtualMeter) {
-        //     $data = $this->getMeterData($virtualMeter, 1633, "2022-09-01T00:00:00Z", "2022-09-30T00:00:00Z");
-        //     // dd($data);
-        //     // array_push($consumptionData, $data);
-
-        //     foreach ($data as $datum) {
-        //         Reading::create([
-        //             'name'             => 'XNU_A-',
-        //             'timestamp'        => $datum['t'],
-        //             'norm'             => $datum['f0'],
-        //             'norm_unit'        => $datum['f2'],
-        //             'virtual_meter_id' => $virtualMeter->id,
-        //             'type'             => 'LOAD',
-        //         ]);
-        //     }
-        // }
-
         $virtualMeters   = VirtualMeter::where('type', 'GENERATOR')->get();
         $consumptionData = [];
         foreach ($virtualMeters as $virtualMeter) {
-            $data = $this->getMeterData($virtualMeter, 1632, "2022-09-01T00:00:00Z", "2022-09-30T00:00:00Z");
+            $data = $this->getMeterData($virtualMeter, 1632, "2022-11-01T00:00:00Z", "2022-11-01T00:00:00Z");
             // dd($data);
             // array_push($consumptionData, $data);
 
@@ -64,27 +45,48 @@ class HomeController extends Controller {
             }
         }
 
+        // $virtualMeters   = VirtualMeter::where('type', 'GENERATOR')->get();
+        // $consumptionData = [];
+        // foreach ($virtualMeters as $virtualMeter) {
+        //     $data = $this->getMeterData($virtualMeter, 1632, "2022-09-01T00:00:00Z", "2022-09-30T00:00:00Z");
+        //     // dd($data);
+        //     // array_push($consumptionData, $data);
+
+        //     foreach ($data as $datum) {
+        //         Reading::create([
+        //             'name'             => 'XNU_A+',
+        //             'timestamp'        => $datum['t'],
+        //             'norm'             => $datum['f0'],
+        //             'norm_unit'        => $datum['f2'],
+        //             'virtual_meter_id' => $virtualMeter->id,
+        //             'type'             => 'GENERATOR',
+        //         ]);
+        //     }
+        // }
+
         // dd(count($consumptionData));
 
-        $firstLoad = Reading::where('timestamp', "2022-10-01T00:00:00Z")
-            ->where('type', 'LOAD')
-            ->sum('norm');
-        $secondLoad = Reading::where('timestamp', "2022-11-01T00:00:00Z")
-            ->where('type', 'LOAD')
-            ->sum('norm');
-        $consumption = $secondLoad - $firstLoad;
+        // $firstLoad = Reading::where('timestamp', "2022-10-01T00:00:00Z")
+        //     ->where('type', 'LOAD')
+        //     ->sum('norm');
+        // $secondLoad = Reading::where('timestamp', "2022-11-01T00:00:00Z")
+        //     ->where('type', 'LOAD')
+        //     ->sum('norm');
+        // $consumption = $secondLoad - $firstLoad;
 
-        $firstGeneration = Reading::where('timestamp', "2022-10-01T00:00:00Z")
-            ->where('type', 'GENERATOR')
-            ->sum('norm');
-        $secondGeneration = Reading::where('timestamp', "2022-11-01T00:00:00Z")
-            ->where('type', 'GENERATOR')
-            ->sum('norm');
-        $consumption = $secondLoad - $firstLoad;
-        $generation  = $secondGeneration - $firstGeneration;
-        $loss        = $generation - $consumption;
-        // dd($generation);
-        dd(($loss / $generation) * 100);
+        // $firstGeneration = Reading::where('timestamp', "2022-10-01T00:00:00Z")
+        //     ->where('type', 'GENERATOR')
+        //     ->sum('norm');
+        // $secondGeneration = Reading::where('timestamp', "2022-11-01T00:00:00Z")
+        //     ->where('type', 'GENERATOR')
+        //     ->sum('norm');
+        // $consumption = $secondLoad - $firstLoad;
+        // $generation  = $secondGeneration - $firstGeneration;
+        // $loss        = $generation - $consumption;
+        // // dd($generation);
+        // dd(($loss / $generation) * 100);
+
+        dd('done');
     }
 
     public function index_store_readings() {
@@ -114,8 +116,8 @@ class HomeController extends Controller {
         ];
 
         $client = new Client([
-            // 'base_uri' => 'https://ksi-ent-cba-01.gridcogh.com/rest_api/',
-            'base_uri' => 'https://converge4.gridcogh.com/rest_api/',
+            'base_uri' => 'https://ksi-ent-cba-01.gridcogh.com/rest_api/',
+            // 'base_uri' => 'https://converge4.gridcogh.com/rest_api/',
             'verify'   => false,
         ]);
 

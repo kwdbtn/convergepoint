@@ -25,7 +25,7 @@
                                 <td>{{ $loop->iteration }}</td>
                                 <td><a style="text-decoration: none" href="{{ route('meter-locations.show', $meterLocation) }}">{{ strToUpper($meterLocation->name) }}</a></td>
                                 <td>{{ strToUpper($meterLocation->area->name) }}</td>
-                                <td>{{ $meterLocation->active == 1 ? "Yes" : "No" }}</td>
+                                <td>{{ $meterLocation->active == 1 ? "YES" : "NO" }}</td>
                             </tr>
                             @endforeach 
                         @endif

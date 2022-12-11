@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class ConvergeVariable extends Model {
     use HasFactory;
 
-    protected $fillable = ['name', 'description', 'obis', 'pvmCount', 'type'];
+    protected $fillable = ['name', 'code', 'description', 'obis', 'pvmCount', 'type'];
 
     public function convergeVariableType() {
         return $this->belongsTo(ConvergeVariableType::class);

@@ -33,7 +33,7 @@
                         !!}
                         <div class="col-sm-8 col-md-8">
                             {!! Form::text('description', null,['class'=>'form-control col-md-7 col-xs-8
-                            ','placeholder'=>'Description', 'required']) !!}
+                            ','placeholder'=>'Description']) !!}
                         </div>
                     </div> 
 

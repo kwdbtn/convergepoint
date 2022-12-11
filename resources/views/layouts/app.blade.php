@@ -55,7 +55,7 @@
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link {{ request()->is('feeders*') ? 'active' : '' }}" href="{{ route('feeders.index') }}">Feeders/Plant Lines</a>
+                            <a class="nav-link {{ request()->is('feeders*') ? 'active' : '' }}" href="{{ route('feeders.index') }}">Feeders/Lines/SS</a>
                         </li>
 
                         <li class="nav-item">

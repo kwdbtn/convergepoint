@@ -25,7 +25,7 @@
                             <th scope="col">Type</th>
                             <th scope="col">Feeder</th>
                             <th scope="col">Location</th>
-                            <th scope="col">Active</th>
+                            <th scope="col">Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -37,7 +37,12 @@
                                  <td>{{ strToUpper($virtualMeter->type ?? "") }}</td>
                                 <td>{{ strToUpper($virtualMeter->feeder->number ?? "") }}</td>
                                 <td>{{ strToUpper($virtualMeter->meter_location->name ?? "") }}</td>
-                                <td>{{ $virtualMeter->active == 1 ? "YES" : "NO" }}</td>
+                                <td>
+                                    <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                                        <button type="button" class="btn btn-sm btn-primary">Approve</button>
+                                        <button type="button" class="btn btn-sm btn-danger">Reject</button>
+                                    </div>
+                                </td>
                             </tr>
                             @endforeach @endif
                     </tbody>

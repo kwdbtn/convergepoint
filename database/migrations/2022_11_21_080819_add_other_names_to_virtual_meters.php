@@ -13,6 +13,7 @@ return new class extends Migration {
     public function up() {
         Schema::table('virtual_meters', function (Blueprint $table) {
             $table->string('alias')->nullable()->after('name');
+            $table->string('load_type')->nullable()->after('type');
         });
     }
 
@@ -24,6 +25,7 @@ return new class extends Migration {
     public function down() {
         Schema::table('virtual_meters', function (Blueprint $table) {
             $table->dropColumn('alias');
+            $table->dropColumn('load_type');
         });
     }
 };
