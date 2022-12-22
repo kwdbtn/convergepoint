@@ -68,7 +68,7 @@
                         </li>
                         @else 
                         <li class="nav-item">
-                            <a class="nav-link {{ request()->is('customers/1') ? 'active' : '' }}" href="customers/1">Readings</a>
+                            <a class="nav-link {{ request()->is('customers/1') ? 'active' : '' }}" href="/customers/1">Readings</a>
                         </li>
                         @endguest
                     </ul>

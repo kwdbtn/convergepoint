@@ -26,10 +26,10 @@ class HomeController extends Controller {
      * @return \Illuminate\Contracts\Support\Renderable
      */
     public function indexx() {
-        $virtualMeters   = VirtualMeter::where('type', 'GENERATOR')->get();
+        $virtualMeters   = VirtualMeter::where('type', 'LOAD')->get();
         $consumptionData = [];
         foreach ($virtualMeters as $virtualMeter) {
-            $data = $this->getMeterData($virtualMeter, 1632, "2022-11-01T00:00:00Z", "2022-11-01T00:00:00Z");
+            $data = $this->getMeterData($virtualMeter, 1632, "2022-10-01T00:00:00Z", "2022-10-01T00:00:00Z");
             // dd($data);
             // array_push($consumptionData, $data);
 
