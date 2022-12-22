@@ -11,7 +11,7 @@
 
             <div class="row">
                 <div class="col-md-4">
-                    <div class="card mb-2" style="height: 250px; overflow:auto;">
+                    <div class="card mb-2" style="height: 500px; overflow:auto;">
                         <div class="card-header">Variables</div>
                         <div class="card-body">
                             @foreach ($variables as $key => $variable)
