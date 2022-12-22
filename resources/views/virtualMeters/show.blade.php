@@ -12,15 +12,7 @@
             <div class="row">
                 <div class="col-md-4">
                     <div class="card mb-2" style="height: 250px; overflow:auto;">
-                        <div class="card-header">LOAD PROFILE</div>
-                        <div class="card-body">
-                            @foreach ($variables as $key => $variable)
-                                <li><a style="{{ $key == $variableKey ? 'color: black; font-weight: bold' : 'text-decoration: none'}}" href="{{ route('virtual-meters.show', [$virtualMeter, $variable]) }}">{{ $key }}</a></li> <hr>
-                            @endforeach
-                        </div>
-                    </div>
-                    <div class="card" style="height: 250px; overflow:auto;">
-                        <div class="card-header">BILLING VALUES</div>
+                        <div class="card-header">Variables</div>
                         <div class="card-body">
                             @foreach ($variables as $key => $variable)
                                 <li><a style="{{ $key == $variableKey ? 'color: black; font-weight: bold' : 'text-decoration: none'}}" href="{{ route('virtual-meters.show', [$virtualMeter, $variable]) }}">{{ $key }}</a></li> <hr>

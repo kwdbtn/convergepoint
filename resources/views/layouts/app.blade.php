@@ -63,9 +63,9 @@
                             <a class="nav-link {{ request()->is('meter-locations*') ? 'active' : '' }}" href="{{ route('meter-locations.index') }}">Meter Locations</a>
                         </li>
 
-                        <li class="nav-item">
+                        {{-- <li class="nav-item">
                             <a class="nav-link {{ request()->is('losses*') ? 'active' : '' }}" href="{{ route('virtual-meters.showLossQuery') }}">Energy Readings</a>
-                        </li>
+                        </li> --}}
                         @else 
                         <li class="nav-item">
                             <a class="nav-link {{ request()->is('customers/1') ? 'active' : '' }}" href="/customers/1">Readings</a>
