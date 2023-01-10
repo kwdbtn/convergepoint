@@ -5,7 +5,7 @@
     <div class="card">
         <div class="card-body">
             <h4 class="card-title"><strong>Virtual Meters</strong>
-                <span class="float-right"><a href="{{ route('virtual-meters.refresh') }}" class="btn btn-sm btn-dark float-end">Refresh</a></span>
+                {{-- <span class="float-right"><a href="{{ route('virtual-meters.refresh') }}" class="btn btn-sm btn-dark float-end">Refresh</a></span> --}}
             </h4>
             <hr>
             <div class="table-responsive table-striped">
