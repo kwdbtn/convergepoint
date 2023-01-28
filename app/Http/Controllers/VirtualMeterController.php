@@ -249,67 +249,77 @@ class VirtualMeterController extends Controller {
         $from = Carbon::parse($fromDate)->toIso8601ZuluString();
         $to   = Carbon::parse($toDate)->toIso8601ZuluString();
 
-        // filter out all the unknowns from the first load readings
-        $readingsFrom = Reading::where([
+        // // filter out all the unknowns from the first load readings
+        // $readingsFrom = Reading::where([
+        //     ['timestamp', '=', $from],
+        //     ['type', '=', 'LOAD'],
+        //     ['norm_unit', '<>', 'unknown'],
+        // ])->get();
+
+        // // filter out all the knowns from the second load readings
+        // $readingsTo = Reading::where([
+        //     ['timestamp', '=', $to],
+        //     ['type', '=', 'LOAD'],
+        //     ['norm_unit', '=', 'unknown'],
+        // ])->get();
+
+        // $baseGenerators = Reading::where([
+        //     ['timestamp', '=', $from],
+        //     ['type', '=', 'GENERATOR'],
+        // ])->get();
+
+        // $firstLoadMeters          = [];
+        // $secondLoadMetersUnknowns = [];
+        // $baseMeters               = [];
+
+        // // get all meters without null values as the base for
+        // // second load calculation
+        // foreach ($readingsFrom as $reading) {
+        //     array_push($firstLoadMeters, $reading->virtual_meter_id);
+        // }
+
+        // // dd(count($firstLoadMeters));
+
+        // // get all meters with null values
+        // foreach ($readingsTo as $reading) {
+        //     array_push($secondLoadMetersUnknowns, $reading->virtual_meter_id);
+        // }
+
+        // foreach ($secondLoadMetersUnknowns as $loadMeter) {
+        //     $key = array_search($loadMeter, $firstLoadMeters);
+
+        //     if ($key !== false) {
+        //         unset($firstLoadMeters[$key]);
+        //     }
+        // }
+
+        // $baseMeters = array_values($firstLoadMeters);
+
+        // $firstLoad  = 0;
+        // $secondLoad = 0;
+        // foreach ($baseMeters as $loadMeter) {
+        //     $firstLoad += Reading::where([
+        //         ['timestamp', '=', $from],
+        //         ['type', '=', 'LOAD'],
+        //         ['virtual_meter_id', '=', $loadMeter],
+        //     ])->value('norm');
+
+        //     $secondLoad += Reading::where([
+        //         ['timestamp', '=', $to],
+        //         ['type', '=', 'LOAD'],
+        //         ['virtual_meter_id', '=', $loadMeter],
+        //     ])->value('norm');
+        // }
+
+        $firstLoad = Reading::where([
             ['timestamp', '=', $from],
             ['type', '=', 'LOAD'],
-            ['norm_unit', '<>', 'unknown'],
-        ])->get();
+        ])->sum('norm');
 
-        // filter out all the knowns from the second load readings
-        $readingsTo = Reading::where([
+        $secondLoad = Reading::where([
             ['timestamp', '=', $to],
             ['type', '=', 'LOAD'],
-            ['norm_unit', '=', 'unknown'],
-        ])->get();
-
-        $baseGenerators = Reading::where([
-            ['timestamp', '=', $from],
-            ['type', '=', 'GENERATOR'],
-        ])->get();
-
-        $firstLoadMeters          = [];
-        $secondLoadMetersUnknowns = [];
-        $baseMeters               = [];
-
-        // get all meters without null values as the base for
-        // second load calculation
-        foreach ($readingsFrom as $reading) {
-            array_push($firstLoadMeters, $reading->virtual_meter_id);
-        }
-
-        // dd(count($firstLoadMeters));
-
-        // get all meters with null values
-        foreach ($readingsTo as $reading) {
-            array_push($secondLoadMetersUnknowns, $reading->virtual_meter_id);
-        }
-
-        foreach ($secondLoadMetersUnknowns as $loadMeter) {
-            $key = array_search($loadMeter, $firstLoadMeters);
-
-            if ($key !== false) {
-                unset($firstLoadMeters[$key]);
-            }
-        }
-
-        $baseMeters = array_values($firstLoadMeters);
-
-        $firstLoad  = 0;
-        $secondLoad = 0;
-        foreach ($baseMeters as $loadMeter) {
-            $firstLoad += Reading::where([
-                ['timestamp', '=', $from],
-                ['type', '=', 'LOAD'],
-                ['virtual_meter_id', '=', $loadMeter],
-            ])->value('norm');
-
-            $secondLoad += Reading::where([
-                ['timestamp', '=', $to],
-                ['type', '=', 'LOAD'],
-                ['virtual_meter_id', '=', $loadMeter],
-            ])->value('norm');
-        }
+        ])->sum('norm');
 
         // calculate consumption
         $consumption = $secondLoad - $firstLoad;
@@ -327,6 +337,13 @@ class VirtualMeterController extends Controller {
         $generation     = $secondGeneration - $firstGeneration;
         $losses         = $generation - $consumption;
         $percentageLoss = ($losses / $generation) * 100;
+
+        $baseGenerators = Reading::where('timestamp', $from)
+            ->where('type', 'GENERATOR')->get();
+        $baseMeters = Reading::where([
+            ['timestamp', '=', $to],
+            ['type', '=', 'LOAD'],
+        ])->get();
 
         $metersChart = new VirtualMeterDataChart;
         $metersChart->labels(['Load', 'Generators']);

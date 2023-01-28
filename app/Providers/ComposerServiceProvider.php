@@ -75,5 +75,24 @@ class ComposerServiceProvider extends ServiceProvider {
 
             $view->with('arr', $arr);
         });
+
+        view()->composer('customerReadings.query', function ($view) {
+            $arr = [
+                'months' => [
+                    1 => 'January',
+                    2 => 'February',
+                    3 => 'March',
+                    4 => 'April',
+                    5 => 'May',
+                ],
+
+                'years'  => [
+                    2022 => '2022',
+                    2023 => '2023',
+                ],
+            ];
+
+            $view->with('arr', $arr);
+        });
     }
 }

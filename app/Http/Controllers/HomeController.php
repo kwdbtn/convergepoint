@@ -25,17 +25,17 @@ class HomeController extends Controller {
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function indexx() {
-        $virtualMeters   = VirtualMeter::where('type', 'LOAD')->get();
+    public function index() {
+        $virtualMeters   = VirtualMeter::where('type', 'GENERATOR')->get();
         $consumptionData = [];
         foreach ($virtualMeters as $virtualMeter) {
-            $data = $this->getMeterData($virtualMeter, 1632, "2022-10-01T00:00:00Z", "2022-10-01T00:00:00Z");
+            $data = $this->getMeterData($virtualMeter, 24948, "2022-11-01T00:00:00Z", "2022-11-01T00:00:00Z");
             // dd($data);
             // array_push($consumptionData, $data);
 
             foreach ($data as $datum) {
                 Reading::create([
-                    'name'             => 'XNU_A+',
+                    'name'             => '+A*Energy*kwh',
                     'timestamp'        => $datum['t'],
                     'norm'             => $datum['f0'],
                     'norm_unit'        => $datum['f2'],

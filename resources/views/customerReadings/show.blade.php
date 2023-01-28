@@ -6,7 +6,7 @@
         <div class="card-body">
             <h4 class="card-title"><strong>{{ $customer->name }} Meters</strong>
                 @guest
-                 <span class="float-right"><a href="{{ route('customers.index') }}" class="btn btn-sm btn-dark float-end">Back</a></span>
+                 <span class="float-right"><a href="{{ route('customer-readings.index', compact('customer')) }}" class="btn btn-sm btn-dark float-end">Back</a></span>
                 @endguest
             </h4>
             
@@ -38,7 +38,7 @@
                             @else @foreach ($customer->virtual_meters as $virtualMeter)
                             <tr scope="row">
                                 <td>{{ $loop->iteration }}</td>
-                                <td><a style="text-decoration: none" href="{{ route('virtual-meters.show', [$virtualMeter, 16005]) }}">{{ strToUpper($virtualMeter->name) }}</a></td>
+                                <td><a style="text-decoration: none" href="{{ route('customer-readings.show-meter-readings', [$reading, $customer, $virtualMeter, 16005]) }}">{{ strToUpper($virtualMeter->name) }}</a></td>
                                  <td>{{ strToUpper($virtualMeter->type ?? "") }}</td>
                                 <td>{{ strToUpper($virtualMeter->feeder->number ?? "") }}</td>
                                 <td>{{ strToUpper($virtualMeter->meter_location->name ?? "") }}</td>
