@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ConvergeVariableController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\CustomerReadingController;
 use App\Http\Controllers\FeederController;
 use App\Http\Controllers\MeterLocationController;
 use Illuminate\Support\Facades\Route;
@@ -58,3 +59,11 @@ Route::resources([
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::get('customers/{customer}/query', [App\Http\Controllers\CustomerReadingController::class, 'showQueryPage'])->name('customer-readings.showQuery');
+Route::post('customers/{customer}/query/results', [App\Http\Controllers\CustomerReadingController::class, 'getQueryResults'])->name('customer-readings.queryResults');
+
+Route::get('customer-readings/{customer}', [CustomerReadingController::class, 'index'])->name('customer-readings.index');
+Route::get('customer-readings/{reading}/{customer}', [CustomerReadingController::class, 'show'])->name('customer-readings.show');
+Route::get('customer-readings/{reading}/{customer}/{virtualMeter}/{variable}', [CustomerReadingController::class, 'showMeterReading'])->name('customer-readings.show-meter-readings');
+Route::post('customer-readings/approval/{reading}', [CustomerReadingController::class, 'meterApproval'])->name('customer-readings.approval');
