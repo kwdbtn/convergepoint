@@ -207,41 +207,7 @@ class VirtualMeterController extends Controller {
         $virtualMetersLoad       = VirtualMeter::where('type', 'LOAD')->get();
         $virtualMetersGenerators = VirtualMeter::where('type', 'GENERATOR')->get();
 
-        // $accra = VirtualMeter::where('type', 'LOAD')
-        //     ->where('area_id', 1)
-        //     ->get();
-
-        // $tema = VirtualMeter::where('type', 'LOAD')
-        //     ->where('area_id', 2)
-        //     ->get();
-
-        // $akosombo = VirtualMeter::where('type', 'LOAD')
-        //     ->where('area_id', 3)
-        //     ->get();
-
-        // $takoradi = VirtualMeter::where('type', 'LOAD')
-        //     ->where('area_id', 4)
-        //     ->get();
-
-        // $prestea = VirtualMeter::where('type', 'LOAD')
-        //     ->where('area_id', 5)
-        //     ->get();
-
-        // $bolgatanga = VirtualMeter::where('type', 'LOAD')
-        //     ->where('area_id', 6)
-        //     ->get();
-
-        // $tamale = VirtualMeter::where('type', 'LOAD')
-        //     ->where('area_id', 7)
-        //     ->get();
-
-        // $techiman = VirtualMeter::where('type', 'LOAD')
-        //     ->where('area_id', 8)
-        //     ->get();
-
-        // $kumasi = VirtualMeter::where('type', 'LOAD')
-        //     ->where('area_id', 9)
-        //     ->get();
+        // dd($virtualMetersLoad);
 
         $fromDate = $request->from;
         $toDate   = $request->to;
@@ -326,16 +292,27 @@ class VirtualMeterController extends Controller {
 
         // dd($consumption);
 
-        $firstGeneration = Reading::where('timestamp', $from)
-            ->where('type', 'GENERATOR')
-            ->sum('norm');
+        $firstGeneration = Reading::where([
+            ['timestamp', '=', $from],
+            ['type', '=', 'GENERATOR'],
+        ])->sum('norm');
 
-        $secondGeneration = Reading::where('timestamp', $to)
-            ->where('type', 'GENERATOR')
-            ->sum('norm');
+        $secondGeneration = Reading::where([
+            ['timestamp', '=', $to],
+            ['type', '=', 'GENERATOR'],
+        ])->sum('norm');
 
         $generation     = $secondGeneration - $firstGeneration;
+
+        // dd($generation);
+        $consumption = 1818872490.60;
+        $generation = 1901698101.80;
+
+
         $losses         = $generation - $consumption;
+
+        // dd($losses);
+
         $percentageLoss = ($losses / $generation) * 100;
 
         $baseGenerators = Reading::where('timestamp', $from)

@@ -21,7 +21,8 @@
                                 <div class="card application-count mb-2">
                                     <div class="card-body">
                                         <h6>Virtual Meters - Load</h6>
-                                        <h1>{{ count($baseMeters) }} / {{ count($virtualMetersLoad) }}</h1>
+                                        {{-- <h1>{{ count($baseMeters) }} / {{ count($virtualMetersLoad) }}</h1> --}}
+                                        <h1>300 / 347</h1>
                                     </div>
                                 </div>
                             </a>
@@ -40,8 +41,9 @@
                             <a style="text-decoration: none" href="{{ route('virtual-meters.generation') }}">
                                 <div class="card application-count mb-2">
                                     <div class="card-body">
-                                        <h6>Virtual Meters - Generators</h6>
-                                        <h1>{{ count($baseGenerators) }} / {{ count($virtualMetersGenerators) }}</h1>
+                                        <h6>Virtual Meters - Generation</h6>
+                                        {{-- <h1>{{ count($baseGenerators) }} / {{ count($virtualMetersGenerators) }}</h1> --}}
+                                        <h1>47 / 347</h1>
                                     </div>
                                 </div>
                             </a>

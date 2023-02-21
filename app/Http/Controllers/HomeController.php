@@ -26,21 +26,24 @@ class HomeController extends Controller {
      * @return \Illuminate\Contracts\Support\Renderable
      */
     public function index() {
-        $virtualMeters   = VirtualMeter::where('type', 'GENERATOR')->get();
+        $virtualMeters   = VirtualMeter::where('type', 'IMPORT/EXPORT')->get();
         $consumptionData = [];
         foreach ($virtualMeters as $virtualMeter) {
-            $data = $this->getMeterData($virtualMeter, 24948, "2022-11-01T00:00:00Z", "2022-11-01T00:00:00Z");
+            $data = $this->getMeterData($virtualMeter, 24948, "2023-01-01T00:00:00Z", "2023-01-01T00:00:00Z");
             // dd($data);
             // array_push($consumptionData, $data);
 
             foreach ($data as $datum) {
                 Reading::create([
-                    'name'             => '+A*Energy*kwh',
-                    'timestamp'        => $datum['t'],
-                    'norm'             => $datum['f0'],
-                    'norm_unit'        => $datum['f2'],
-                    'virtual_meter_id' => $virtualMeter->id,
-                    'type'             => 'GENERATOR',
+                    'name'               => '+A*Energy*kwh',
+                    'timestamp'          => $datum['t'],
+                    'norm'               => $datum['f0'],
+                    'norm_unit'          => $datum['f2'],
+                    'virtual_meter_id'   => $virtualMeter->id,
+                    'virtual_meter_name' => $virtualMeter->name,
+                    'node_id'            => $virtualMeter->node_id,
+                    'serial_number'      => $virtualMeter->serial_number,
+                    'type'               => 'LOAD',
                 ]);
             }
         }
