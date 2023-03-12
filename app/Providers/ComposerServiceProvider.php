@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Models\Area;
+use App\Models\CriticalLine;
 use App\Models\Customer;
 use App\Models\Feeder;
 use App\Models\MeterLocation;
@@ -90,6 +91,15 @@ class ComposerServiceProvider extends ServiceProvider {
                     2022 => '2022',
                     2023 => '2023',
                 ],
+            ];
+
+            $view->with('arr', $arr);
+        });
+
+        view()->composer(['criticalLines.query', 'criticalLines.queryResults', 'criticalLines.queryAll', 'criticalLines.queryResultsAll'], function ($view) {
+
+            $arr = [
+                'criticalLines' => CriticalLine::pluck('name', 'id'),
             ];
 
             $view->with('arr', $arr);

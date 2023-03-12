@@ -52,6 +52,24 @@
         $("#datetimepicker8").on("change.datetimepicker", function (e) {
             $('#datetimepicker7').datetimepicker('maxDate', e.date);
         });
+
+        $('#dateonly').datetimepicker({
+            format: 'L',
+        });
+
+        $('#dateFrom').datetimepicker({
+            format: 'L',
+        });
+        $('#dateTo').datetimepicker({
+            useCurrent: false,
+            format: 'L',
+        });
+        $("#dateFrom").on("change.datetimepicker", function (e) {
+            $('#dateTo').datetimepicker('minDate', e.date);
+        });
+        $("#dateTo").on("change.datetimepicker", function (e) {
+            $('#dateFrom').datetimepicker('maxDate', e.date);
+        });
     });
 
     $(document).ready(function () {

@@ -66,6 +66,10 @@
                         <li class="nav-item">
                             <a class="nav-link {{ request()->is('losses*') ? 'active' : '' }}" href="{{ route('virtual-meters.showLossQuery') }}">Energy Readings</a>
                         </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link {{ request()->is('critical-lines*') ? 'active' : '' }}" href="{{ route('critical-lines.index') }}">Critical Lines</a>
+                        </li>
                         @else 
                         <li class="nav-item">
                             <a class="nav-link {{ request()->is('customers/1') ? 'active' : '' }}" href="/customers/1">Readings</a>

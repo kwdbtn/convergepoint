@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ConvergeVariableController;
+use App\Http\Controllers\CriticalLineController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\CustomerReadingController;
 use App\Http\Controllers\FeederController;
@@ -55,8 +56,8 @@ Route::resources([
     'feeders'         => FeederController::class,
     'meter-locations' => MeterLocationController::class,
     'variables'       => ConvergeVariableController::class,
+    'critical-lines' => CriticalLineController::class,
 ]);
-Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
@@ -67,3 +68,9 @@ Route::get('customer-readings/{customer}', [CustomerReadingController::class, 'i
 Route::get('customer-readings/{reading}/{customer}', [CustomerReadingController::class, 'show'])->name('customer-readings.show');
 Route::get('customer-readings/{reading}/{customer}/{virtualMeter}/{variable}', [CustomerReadingController::class, 'showMeterReading'])->name('customer-readings.show-meter-readings');
 Route::post('customer-readings/approval/{reading}', [CustomerReadingController::class, 'meterApproval'])->name('customer-readings.approval');
+
+Route::get('critical-lines/x/queryall', [App\Http\Controllers\CriticalLineController::class, 'showQueryPageAll'])->name('critical-lines.showQueryAll');
+Route::post('critical-lines/query-results-all', [App\Http\Controllers\CriticalLineController::class, 'getQueryResultsAll'])->name('critical-lines.queryResultsAll');
+
+Route::get('critical-lines/{criticalline}/query', [App\Http\Controllers\CriticalLineController::class, 'showQueryPage'])->name('critical-lines.showQuery');
+Route::post('critical-lines/query-results', [App\Http\Controllers\CriticalLineController::class, 'getQueryResults'])->name('critical-lines.queryResults');
