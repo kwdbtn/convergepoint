@@ -4,7 +4,9 @@
 <div class="container">
     <div class="card">
         <div class="card-body">
-            <h5 class="card-title">Query results - <strong>{{ $lossArray[0]->line->name }}</strong> ({{ $lossArray[0]->source->name }} - {{ $lossArray[0]->destination->name }}) <br><br> Period - <strong>{{ $from }} --- {{ $to }}</strong></h5>
+            <h5 class="card-title">Query results - <strong>{{ $lossArray[0]->line->name }}</strong> ({{ $lossArray[0]->source->name }} - {{ $lossArray[0]->destination->name }}) <span class="float-right"><a href="{{ route('critical-lines.showQueryAll') }}" class="btn btn-sm btn-dark float-end">Query for Losses</a></span>
+                <br><br> Period - <strong>{{ $from }} --- {{ $to }}</strong>
+            </h5>
             <hr>
 
             <div class="row">
