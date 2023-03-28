@@ -17,6 +17,7 @@
                             <th scope="col">Name</th>
                             <th scope="col">Source</th>
                             <th scope="col">Destination</th>
+                            <th scope="col">Active</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -27,6 +28,7 @@
                                 <td>{{ $line->name }}</td>
                                 <td>{{ $line->source }}</td>
                                 <td>{{ $line->destination }}</td>
+                                <td>{{ $line->active ? "Yes" : "No" }}</td>
                             </tr>
                             @endforeach @endif
                     </tbody>

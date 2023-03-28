@@ -99,7 +99,7 @@ class ComposerServiceProvider extends ServiceProvider {
         view()->composer(['criticalLines.query', 'criticalLines.queryResults', 'criticalLines.queryAll', 'criticalLines.queryResultsAll'], function ($view) {
 
             $arr = [
-                'criticalLines' => CriticalLine::pluck('name', 'id'),
+                'criticalLines' => CriticalLine::where('active', true)->pluck('name', 'id'),
             ];
 
             $view->with('arr', $arr);
