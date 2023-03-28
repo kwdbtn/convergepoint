@@ -6,6 +6,7 @@
         <div class="card-body">
             <h4 class="card-title"><strong>Critical Lines</strong>
                 <span class="float-right"><a href="{{ route('critical-lines.showQueryAll') }}" class="btn btn-sm btn-dark float-end">Query for Losses</a></span>
+                <span class="float-right"><a href="{{ route('critical-lines.dailyAverageLosses') }}" class="btn btn-sm btn-secondary float-end">Daily Loss</a></span>
             </h4>
             <hr>
             <div class="table-responsive">

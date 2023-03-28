@@ -25,6 +25,12 @@ class LineLoss {
     public $percentageLoss;
 }
 
+class LossAverage {
+    public $today;
+    public $yesterday;
+    public $average;
+}
+
 class CriticalLineController extends Controller {
     /**
      * Display a listing of the resource.
@@ -232,6 +238,48 @@ class CriticalLineController extends Controller {
         $consumption = $todaydata[0]['f0'] - $yesterdaydata[0]['f0'];
 
         return $consumption;
+    }
+
+    public function dailyAverageLosses() {
+        $lineLosses = [];
+        $today = Carbon::today();
+        $yesterday = $today->copy()->subDay();
+
+        $criticalLines = CriticalLine::where('active', true)->get();
+
+        foreach ($criticalLines as $criticalLine) {
+            $lineLoss = $this->getLineLoss($criticalLine, $yesterday, $today);
+
+            $criticalLine->update([
+                'loss' => $lineLoss->percentageLoss,
+                'loss_date' => Carbon::today()
+            ]);
+
+            array_push($lineLosses, $lineLoss);
+        }
+
+        $labels = [];
+        $losses = [];
+        $sum = 0;
+
+        foreach ($lineLosses as $lossItem) {
+            array_push($labels, $lossItem->line->name);
+            array_push($losses, round($lossItem->percentageLoss, 2));
+            $sum += round($lossItem->percentageLoss, 2);
+        }
+
+        $average = $sum / count($lineLosses);
+
+        $readingChart = new VirtualMeterDataChart;
+        $readingChart->labels($labels);
+        $readingChart->dataset('Loss %', 'bar', $losses)
+            ->backgroundColor([
+                'rgba(255, 99, 132, 0.2)',
+            ]);
+
+        return view('criticalLines.dailyAverageResults', compact('lineLosses', 'yesterday', 'today', 'average', 'readingChart'));
+
+        // dd($lineLosses);
     }
 
     /**

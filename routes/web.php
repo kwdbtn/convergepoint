@@ -74,3 +74,5 @@ Route::post('critical-lines/query-results-all', [App\Http\Controllers\CriticalLi
 
 Route::get('critical-lines/{criticalline}/query', [App\Http\Controllers\CriticalLineController::class, 'showQueryPage'])->name('critical-lines.showQuery');
 Route::post('critical-lines/query-results', [App\Http\Controllers\CriticalLineController::class, 'getQueryResults'])->name('critical-lines.queryResults');
+
+Route::get('critical-lines/y/daily-average', [App\Http\Controllers\CriticalLineController::class, 'dailyAverageLosses'])->name('critical-lines.dailyAverageLosses');

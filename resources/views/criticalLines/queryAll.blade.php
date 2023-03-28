@@ -4,7 +4,7 @@
 <div class="container">
     <div class="card">
         <div class="card-body">
-            <h5 class="card-title">Query</h5>
+            <h5 class="card-title">Query <span class="float-right"><a href="{{ route('critical-lines.index') }}" class="btn btn-sm btn-dark float-end">Back</a></span></h5>
             <hr>
             {!! Form::open(['route' => 'critical-lines.queryResultsAll']) !!}
             <div class="row g-5">
