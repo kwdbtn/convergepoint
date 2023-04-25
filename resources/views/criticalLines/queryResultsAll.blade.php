@@ -50,7 +50,7 @@
                                     <td>{{ $lineItem->sourceDataPresentValue }}</td>
                                 </tr>
                                 <tr scope="row">
-                                    <td>Source Loss</td>
+                                    <td>Source Difference</td>
                                     <td>{{ $lineItem->sourceLoss }}</td>
                                 </tr>
                                 <tr scope="row">
@@ -66,7 +66,7 @@
                                     <td>{{ $lineItem->destinationDataPresentValue }}</td>
                                 </tr>
                                 <tr scope="row">
-                                    <td>Destination Loss</td>
+                                    <td>Destination Difference</td>
                                     <td>{{ $lineItem->destinationLoss }}</td>
                                 </tr>
                                 <tr scope="row">

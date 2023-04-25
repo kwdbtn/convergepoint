@@ -185,7 +185,7 @@ class CriticalLineController extends Controller {
 
         $response = $client->request('POST', 'api/v1/login/user-login', [
             'headers' => $headers,
-            'body'    => '{"userName":"gridcodev", "password":"Pa55w.rd"}',
+            'body'    => '{"userName":"kwadwo", "password":"wyn8ega-udg4RPQ@qhv"}',
         ]);
 
         $statusCode   = $response->getStatusCode();
